@@ -1,0 +1,133 @@
+@import "../../ui-kit/kit.css";
+
+body {
+  position: relative;
+}
+
+.segment-text {
+  font-weight: 500;
+}
+
+.fig-check__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.fig-check:has(input:disabled) {
+  color: var(--fig-text-tertiary);
+  cursor: not-allowed;
+}
+
+.fig-check:has(input:disabled) .fig-check__box {
+  opacity: 0.5;
+}
+
+/* Failure details follow the summary on their own lines. */
+.fig-notice {
+  white-space: pre-line;
+}
+
+.value-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fig-space-1);
+  align-items: center;
+}
+
+.value-chip {
+  display: inline-flex;
+  align-items: center;
+  height: var(--fig-control-h-sm);
+  padding-left: 10px;
+  border-radius: var(--fig-radius-pill);
+  background: var(--fig-bg-secondary);
+  color: var(--fig-text-secondary);
+}
+
+.value-chip--default {
+  background: var(--fig-bg-selected);
+  color: var(--fig-text);
+}
+
+.value-chip__name {
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.value-chip--default .value-chip__name {
+  font-weight: 600;
+  cursor: default;
+}
+
+.value-chip__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin: 0 3px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--fig-icon-tertiary);
+  cursor: pointer;
+}
+
+.value-chip__remove:hover {
+  background: var(--fig-bg-pressed);
+  color: var(--fig-icon);
+}
+
+.value-chip__remove svg {
+  width: 8px;
+  height: 8px;
+}
+
+.value-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: var(--fig-control-h-sm);
+  padding: 0 10px;
+  border: 1px dashed var(--fig-border-strong);
+  border-radius: var(--fig-radius-pill);
+  background: none;
+  color: var(--fig-text-tertiary);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.value-add:hover {
+  background: var(--fig-bg-hover);
+  color: var(--fig-text);
+}
+
+.value-input {
+  width: 104px;
+  height: var(--fig-control-h-sm);
+  padding: 0 10px;
+  border: 1px solid var(--fig-border-brand);
+  border-radius: var(--fig-radius-pill);
+  background: var(--fig-bg-secondary);
+  color: var(--fig-text);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+}
+
+.width-row {
+  align-items: center;
+}
+
+.width-row__px {
+  flex: 0 0 88px;
+}

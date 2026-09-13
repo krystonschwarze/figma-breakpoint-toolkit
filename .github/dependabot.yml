@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      dev-dependencies:
+        patterns: ['*']
+    ignore:
+      # The lint toolchain pins the TypeScript line: typescript-eslint peers on <6.1.0 and
+      # @figma/eslint-plugin-figma-plugins on ^5.3.2, so a major bump makes npm ci fail with
+      # ERESOLVE. Lift this once both accept the next major.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+    commit-message:
+      prefix: 'chore'

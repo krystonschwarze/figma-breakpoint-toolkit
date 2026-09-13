@@ -1,0 +1,109 @@
+{
+  "width": 320,
+  "height": 660,
+  "messages": [
+    {
+      "type": "init",
+      "settings": {
+        "propertyName": "Breakpoint",
+        "collection": {
+          "kind": "library",
+          "ref": "k1"
+        },
+        "variable": {
+          "kind": "library",
+          "ref": "v1"
+        },
+        "targetMode": "Mobile",
+        "variantForMode": {},
+        "switchVariants": true,
+        "resetNestedModes": true,
+        "setChildrenModes": false,
+        "variantValues": ["Desktop", "Mobile"],
+        "widths": {
+          "Desktop": 1680,
+          "Tablet": 1024,
+          "Mobile": 400
+        },
+        "duplicate": true,
+        "resizeRoot": true
+      },
+      "collections": [
+        {
+          "kind": "local",
+          "ref": "1:1",
+          "name": "Colors",
+          "libraryName": null
+        },
+        {
+          "kind": "library",
+          "ref": "k1",
+          "name": "Breakpoint",
+          "libraryName": "Design System"
+        }
+      ],
+      "libraryError": null,
+      "selection": {
+        "valid": true,
+        "names": ["enercity+"]
+      },
+      "diagnostics": []
+    },
+    {
+      "type": "collection",
+      "collection": {
+        "kind": "library",
+        "ref": "k1"
+      },
+      "modes": [
+        {
+          "id": "m1",
+          "name": "Desktop"
+        },
+        {
+          "id": "m2",
+          "name": "Tablet"
+        },
+        {
+          "id": "m3",
+          "name": "Mobile"
+        }
+      ],
+      "variables": [
+        {
+          "kind": "library",
+          "ref": "v1",
+          "name": "breakpoint/Breakpoint"
+        }
+      ],
+      "variable": {
+        "kind": "library",
+        "ref": "v1"
+      },
+      "error": null
+    },
+    {
+      "type": "scan",
+      "scan": {
+        "nodes": 2350,
+        "instances": 79,
+        "bound": 0,
+        "values": {
+          "Desktop": 71,
+          "Mobile": 8
+        },
+        "options": ["Desktop", "Mobile"],
+        "fixedModes": 21,
+        "fixedModesAnyCollection": 24,
+        "rootModes": ["Mobile"],
+        "prepare": {
+          "plain": 0,
+          "sets": 0,
+          "setVariants": 0,
+          "newVariants": 0,
+          "ready": 0
+        }
+      }
+    }
+  ]
+}

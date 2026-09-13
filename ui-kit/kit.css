@@ -1,0 +1,814 @@
+/*
+ * Figma plugin UI kit. The canonical copy is the repo carrying a .ui-kit-canonical marker.
+ * Sync into the sibling plugin repos with `npm run sync:ui-kit`.
+ */
+
+/* Figma injects --figma-color-* on :root when manifest ui uses themeColors. Never redefine those. */
+:root {
+  color-scheme: light;
+
+  --fig-bg: var(--figma-color-bg, #ffffff);
+  --fig-bg-secondary: var(--figma-color-bg-secondary, #f5f5f5);
+  --fig-bg-tertiary: var(--figma-color-bg-tertiary, #e6e6e6);
+  --fig-bg-hover: var(--figma-color-bg-hover, rgba(0, 0, 0, 0.06));
+  --fig-bg-pressed: var(--figma-color-bg-pressed, rgba(0, 0, 0, 0.1));
+  --fig-bg-selected: var(--figma-color-bg-selected, #e5f4ff);
+  --fig-bg-brand: var(--figma-color-bg-brand, #0d99ff);
+  --fig-bg-brand-hover: var(--figma-color-bg-brand-hover, #007be5);
+  --fig-bg-brand-pressed: var(--figma-color-bg-brand-pressed, #0067c4);
+  --fig-bg-danger: var(--figma-color-bg-danger, #f24822);
+  --fig-bg-success: var(--figma-color-bg-success, #14ae5c);
+  --fig-bg-warning: var(--figma-color-bg-warning, #ffcd29);
+
+  --fig-border: var(--figma-color-border, #e6e6e6);
+  --fig-border-strong: var(--figma-color-border-strong, #767676);
+  --fig-border-brand: var(--figma-color-border-brand-strong, #0d99ff);
+
+  --fig-text: var(--figma-color-text, #000000);
+  --fig-text-secondary: var(--figma-color-text-secondary, #444444);
+  --fig-text-tertiary: var(--figma-color-text-tertiary, #b2b2b2);
+  --fig-text-onbrand: var(--figma-color-text-onbrand, #ffffff);
+  --fig-text-danger: var(--figma-color-text-danger, #f24822);
+  --fig-text-success: var(--figma-color-text-success, #009951);
+
+  --fig-icon: var(--figma-color-icon, #000000);
+  --fig-icon-secondary: var(--figma-color-icon-secondary, #444444);
+  --fig-icon-tertiary: var(--figma-color-icon-tertiary, #b2b2b2);
+
+  --fig-font:
+    Inter, "Inter var", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fig-font-size: 11px;
+  --fig-font-size-sm: 10px;
+  --fig-line-height: 16px;
+  --fig-letter-spacing: 0.005em;
+
+  --fig-control-h: 32px;
+  --fig-control-h-sm: 24px;
+  --fig-header-h: 40px;
+
+  --fig-radius-sm: 4px;
+  --fig-radius: 6px;
+  --fig-radius-lg: 8px;
+  --fig-radius-pill: 999px;
+
+  --fig-space-1: 4px;
+  --fig-space-2: 8px;
+  --fig-space-3: 12px;
+  --fig-space-4: 16px;
+  --fig-space-5: 24px;
+
+  --fig-duration: 120ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --fig-bg: var(--figma-color-bg, #2c2c2c);
+    --fig-bg-secondary: var(--figma-color-bg-secondary, #383838);
+    --fig-bg-tertiary: var(--figma-color-bg-tertiary, #444444);
+    --fig-bg-hover: var(--figma-color-bg-hover, rgba(255, 255, 255, 0.06));
+    --fig-bg-pressed: var(--figma-color-bg-pressed, rgba(255, 255, 255, 0.1));
+    --fig-bg-selected: var(--figma-color-bg-selected, #0d99ff26);
+    --fig-border: var(--figma-color-border, #444444);
+    --fig-border-strong: var(--figma-color-border-strong, #9a9a9a);
+    --fig-text: var(--figma-color-text, #ffffff);
+    --fig-text-secondary: var(--figma-color-text-secondary, #b2b2b2);
+    --fig-text-tertiary: var(--figma-color-text-tertiary, #757575);
+    --fig-icon: var(--figma-color-icon, #ffffff);
+    --fig-icon-secondary: var(--figma-color-icon-secondary, #b2b2b2);
+    --fig-icon-tertiary: var(--figma-color-icon-tertiary, #757575);
+  }
+}
+
+/* Figma marks the document with figma-dark so OS-rendered select popups follow the editor theme, not the OS. */
+html.figma-light {
+  color-scheme: light;
+}
+
+html.figma-dark {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Headings and paragraphs carry the body scale. The kit sizes text through classes, not tag names. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--fig-bg);
+  color: var(--fig-text);
+  font-family: var(--fig-font);
+  font-size: var(--fig-font-size);
+  line-height: var(--fig-line-height);
+  letter-spacing: var(--fig-letter-spacing);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--fig-border-brand);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+.fig-header {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--fig-space-2);
+  align-items: center;
+  height: var(--fig-header-h);
+  padding: 0 var(--fig-space-3);
+  border-bottom: 1px solid var(--fig-border);
+}
+
+.fig-header__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--fig-bg-brand);
+}
+
+.fig-header__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fig-header__meta {
+  flex-shrink: 0;
+  color: var(--fig-text-secondary);
+  font-size: var(--fig-font-size-sm);
+}
+
+/* Fixed row directly under the header, for a control that scopes the whole window. */
+.fig-toolbar {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: var(--fig-space-2);
+  padding: var(--fig-space-2);
+  border-bottom: 1px solid var(--fig-border);
+}
+
+.fig-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 var(--fig-space-2);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/*
+ * Pinned row for a result or an error. Belongs outside fig-body: inside the scrolling area a message
+ * can render below the fold and never be seen, which turns a reported failure into a silent one.
+ */
+.fig-status {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: var(--fig-space-2) var(--fig-space-2) 0;
+}
+
+.fig-footer {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--fig-space-2);
+  margin-top: auto;
+  padding: var(--fig-space-2) var(--fig-space-2) 10px;
+}
+
+/* Only one of the two may claim the leftover space, or the footer stops sitting at the bottom. */
+.fig-status:not([hidden]) + .fig-footer {
+  margin-top: 0;
+}
+
+/* A row footer splits the width evenly, a stacked one keeps every button at full control height. */
+.fig-footer > .fig-btn {
+  flex: 1 1 0;
+}
+
+.fig-footer--stack {
+  flex-direction: column;
+  gap: var(--fig-space-1);
+}
+
+.fig-footer--stack > .fig-btn {
+  flex: 0 0 auto;
+}
+
+.fig-footer > .fig-btn--icon {
+  flex: 0 0 auto;
+}
+
+.fig-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fig-space-2);
+  padding: 10px 0;
+}
+
+.fig-group + .fig-group {
+  border-top: 1px solid var(--fig-border);
+}
+
+.fig-group[hidden] + .fig-group {
+  border-top: none;
+}
+
+.fig-label {
+  color: var(--fig-text-tertiary);
+  font-weight: 500;
+  font-size: var(--fig-font-size-sm);
+  letter-spacing: 0.02em;
+}
+
+.fig-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fig-row {
+  display: flex;
+  gap: var(--fig-space-1);
+  align-items: stretch;
+}
+
+.fig-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fig-space-2);
+}
+
+.fig-hint {
+  color: var(--fig-text-tertiary);
+  font-size: var(--fig-font-size-sm);
+}
+
+.fig-field {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  height: var(--fig-control-h);
+  padding: 0 var(--fig-space-2);
+  border-radius: var(--fig-radius);
+  background: var(--fig-bg-secondary);
+  cursor: text;
+  transition: background var(--fig-duration);
+}
+
+.fig-field:hover {
+  background: var(--fig-bg-hover);
+}
+
+.fig-field:focus-within {
+  background: var(--fig-bg);
+  outline: 2px solid var(--fig-border-brand);
+  outline-offset: -2px;
+}
+
+.fig-field > svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--fig-icon-tertiary);
+}
+
+.fig-field__affix {
+  flex-shrink: 0;
+  min-width: 10px;
+  color: var(--fig-text-tertiary);
+  font-weight: 500;
+  font-size: var(--fig-font-size-sm);
+}
+
+.fig-field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--fig-text);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  -moz-appearance: textfield;
+}
+
+.fig-field input:focus-visible {
+  outline: none;
+}
+
+.fig-field input[type="number"] {
+  text-align: right;
+}
+
+.fig-field input::-webkit-inner-spin-button,
+.fig-field input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.fig-field input::placeholder {
+  color: var(--fig-text-tertiary);
+}
+
+.fig-select {
+  width: 100%;
+  height: var(--fig-control-h);
+  padding: 0 28px 0 var(--fig-space-2);
+  border: none;
+  border-radius: var(--fig-radius);
+  background-color: var(--fig-bg-secondary);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6"><path d="M1 1.5 4 4.5 7 1.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right var(--fig-space-2) center;
+  color: var(--fig-text);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  transition: background-color var(--fig-duration);
+  appearance: none;
+}
+
+.fig-select:hover:not(:disabled) {
+  background-color: var(--fig-bg-hover);
+}
+
+.fig-select:disabled {
+  color: var(--fig-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.fig-segmented {
+  display: flex;
+  gap: 2px;
+  height: var(--fig-control-h);
+  padding: 3px;
+  border-radius: var(--fig-radius-lg);
+  background: var(--fig-bg-secondary);
+}
+
+.fig-segment {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--fig-text-tertiary);
+  cursor: pointer;
+  transition:
+    background var(--fig-duration),
+    color var(--fig-duration);
+}
+
+.fig-segment:hover {
+  background: var(--fig-bg-hover);
+  color: var(--fig-text-secondary);
+}
+
+.fig-segment[aria-selected="true"] {
+  background: var(--fig-bg-pressed);
+  box-shadow:
+    0 0.5px 1px rgba(0, 0, 0, 0.3),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+  color: var(--fig-text);
+}
+
+.fig-segment svg {
+  width: 16px;
+  height: 16px;
+}
+
+.fig-btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  height: var(--fig-control-h);
+  min-height: var(--fig-control-h);
+  padding: 0 var(--fig-space-3);
+  border: none;
+  border-radius: var(--fig-radius);
+  background: var(--fig-bg-secondary);
+  color: var(--fig-text);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--fig-duration),
+    color var(--fig-duration);
+}
+
+.fig-btn:hover:not(:disabled) {
+  background: var(--fig-bg-hover);
+}
+
+.fig-btn:active:not(:disabled) {
+  background: var(--fig-bg-pressed);
+}
+
+.fig-btn:disabled {
+  color: var(--fig-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.fig-btn--primary {
+  background: var(--fig-bg-brand);
+  color: var(--fig-text-onbrand);
+}
+
+.fig-btn--primary:hover:not(:disabled) {
+  background: var(--fig-bg-brand-hover);
+}
+
+.fig-btn--primary:active:not(:disabled) {
+  background: var(--fig-bg-brand-pressed);
+}
+
+.fig-btn--primary:disabled {
+  background: var(--fig-bg-secondary);
+  color: var(--fig-text-tertiary);
+}
+
+.fig-btn--success {
+  background: var(--fig-bg-success);
+  color: var(--fig-text-onbrand);
+}
+
+.fig-btn--icon {
+  flex: 0 0 auto;
+  width: var(--fig-control-h-sm);
+  height: var(--fig-control-h-sm);
+  min-height: var(--fig-control-h-sm);
+  padding: 0;
+  border-radius: var(--fig-radius-sm);
+  background: none;
+  color: var(--fig-icon-tertiary);
+}
+
+.fig-btn--icon:hover:not(:disabled) {
+  background: var(--fig-bg-hover);
+  color: var(--fig-icon);
+}
+
+.fig-btn--icon[aria-pressed="true"] {
+  color: var(--fig-bg-brand);
+}
+
+.fig-btn--icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.fig-check {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: var(--fig-control-h);
+  padding: 0 var(--fig-space-1);
+  color: var(--fig-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.fig-check input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.fig-check__box {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--fig-border-strong);
+  border-radius: 3px;
+  transition:
+    background var(--fig-duration),
+    border-color var(--fig-duration);
+}
+
+.fig-check__box svg {
+  width: 10px;
+  height: 10px;
+  color: var(--fig-text-onbrand);
+  opacity: 0;
+  transition: opacity var(--fig-duration);
+}
+
+.fig-check input:checked + .fig-check__box {
+  border-color: var(--fig-bg-brand);
+  background: var(--fig-bg-brand);
+}
+
+.fig-check input:checked + .fig-check__box svg {
+  opacity: 1;
+}
+
+/*
+ * Row height variant for dense lists. Never swap this for a native checkbox with accent-color: the
+ * browser picks the tick colour from the colour scheme, so it comes out dark in light mode.
+ */
+.fig-check--sm {
+  gap: 0;
+  height: auto;
+  padding: 0;
+}
+
+.fig-check--sm .fig-check__box {
+  width: 12px;
+  height: 12px;
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+.fig-check--sm .fig-check__box svg {
+  width: 8px;
+  height: 8px;
+}
+
+.fig-check input:focus-visible + .fig-check__box {
+  outline: 2px solid var(--fig-border-brand);
+  outline-offset: 1px;
+}
+
+.fig-radio {
+  display: flex;
+  gap: var(--fig-space-2);
+  align-items: center;
+  min-height: var(--fig-control-h);
+  padding: 0 var(--fig-space-2);
+  border-radius: var(--fig-radius);
+  color: var(--fig-text);
+  cursor: pointer;
+  transition: background var(--fig-duration);
+}
+
+.fig-radio:hover {
+  background: var(--fig-bg-hover);
+}
+
+.fig-radio input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.fig-radio__dot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--fig-border-strong);
+  border-radius: 50%;
+  transition: border-color var(--fig-duration);
+}
+
+.fig-radio__dot::after {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fig-bg-brand);
+  transform: scale(0);
+  transition: transform var(--fig-duration);
+  content: "";
+}
+
+.fig-radio input:checked + .fig-radio__dot {
+  border-color: var(--fig-bg-brand);
+}
+
+.fig-radio input:checked + .fig-radio__dot::after {
+  transform: scale(1);
+}
+
+.fig-radio input:focus-visible + .fig-radio__dot {
+  outline: 2px solid var(--fig-border-brand);
+  outline-offset: 1px;
+}
+
+.fig-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding: 0 7px;
+  border: none;
+  border-radius: var(--fig-radius-pill);
+  background: none;
+  color: var(--fig-text-tertiary);
+  font-family: inherit;
+  font-size: var(--fig-font-size-sm);
+  cursor: pointer;
+  transition:
+    background var(--fig-duration),
+    color var(--fig-duration);
+}
+
+.fig-chip:hover {
+  background: var(--fig-bg-hover);
+  color: var(--fig-text);
+}
+
+.fig-chip:active {
+  background: var(--fig-bg-pressed);
+}
+
+.fig-chip--custom {
+  color: var(--fig-text-secondary);
+}
+
+.fig-chip--add {
+  width: 20px;
+  padding: 0;
+  border: 1px dashed var(--fig-border-strong);
+  font-size: 12px;
+}
+
+.fig-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.fig-notice {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  padding: var(--fig-space-2);
+  border-radius: var(--fig-radius);
+  background: var(--fig-bg-secondary);
+  color: var(--fig-text-secondary);
+}
+
+.fig-notice svg {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 2px;
+}
+
+.fig-notice--error {
+  background: color-mix(in srgb, var(--fig-bg-danger) 12%, transparent);
+  color: var(--fig-text-danger);
+}
+
+.fig-notice--success {
+  background: color-mix(in srgb, var(--fig-bg-success) 12%, transparent);
+  color: var(--fig-text-success);
+}
+
+.fig-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px var(--fig-space-5);
+  text-align: center;
+}
+
+.fig-empty svg {
+  width: 28px;
+  height: 28px;
+  color: var(--fig-icon-tertiary);
+}
+
+.fig-empty__text {
+  color: var(--fig-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fig-link {
+  border: none;
+  background: none;
+  color: var(--fig-text-tertiary);
+  font-family: inherit;
+  font-size: var(--fig-font-size-sm);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color var(--fig-duration);
+}
+
+.fig-link:hover {
+  color: var(--fig-text-secondary);
+}
+
+.fig-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fig-list__row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  height: var(--fig-control-h);
+  padding: 0 var(--fig-space-1);
+  border-radius: var(--fig-radius);
+}
+
+.fig-list__row:hover {
+  background: var(--fig-bg-hover);
+}
+
+.fig-list__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fig-view {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.fig-overlay {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  flex-direction: column;
+  background: var(--fig-bg);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.fig-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

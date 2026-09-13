@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Breakpoint Toolkit</title>
+    <!--inject:css-->
+  </head>
+  <body>
+    <div class="fig-view">
+      <header class="fig-header">
+        <span class="fig-header__dot" aria-hidden="true"></span>
+        <h1 class="fig-header__title">Breakpoint Toolkit</h1>
+        <span class="fig-header__meta" id="headerMeta"></span>
+        <button type="button" class="fig-btn fig-btn--icon" id="rescan" title="Rescan selection">
+          <span class="fig-sr-only">Rescan selection</span>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path
+              d="M12 7a5 5 0 1 1-1.5-3.6"
+              stroke="currentColor"
+              stroke-width="1.3"
+              stroke-linecap="round"
+            />
+            <path
+              d="M12 1.5V4H9.5"
+              stroke="currentColor"
+              stroke-width="1.3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button type="button" class="fig-btn fig-btn--icon" id="openSettings" title="Settings">
+          <span class="fig-sr-only">Settings</span>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2" />
+            <circle cx="7" cy="7" r="1.5" fill="currentColor" />
+            <path
+              d="M7 2v1.5M7 10.5V12M2 7h1.5M10.5 7H12M3.8 3.8l1.1 1.1M9.1 9.1l1.1 1.1M3.8 10.2l1.1-1.1M9.1 4.9l1.1-1.1"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <div class="fig-toolbar">
+        <div class="fig-segmented" id="operationSwitch" aria-label="Operation">
+          <button class="fig-segment segment-text" data-value="switch">Switch</button>
+          <button class="fig-segment segment-text" data-value="bind">Bind</button>
+          <button class="fig-segment segment-text" data-value="prepare">Prepare</button>
+        </div>
+      </div>
+
+      <div class="fig-body">
+        <div class="fig-empty" id="emptyView" hidden>
+          <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <rect
+              x="8"
+              y="2.5"
+              width="12"
+              height="23"
+              rx="3"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path d="M12 6h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="14" cy="21.5" r="1" fill="currentColor" />
+          </svg>
+          <p class="fig-empty__text" id="emptyMessage">Select a screen or a component.</p>
+        </div>
+
+        <div class="fig-view" id="switchView" hidden>
+          <section class="fig-group">
+            <div class="fig-label">Breakpoint</div>
+            <div class="fig-segmented" id="modeGroup" role="tablist" aria-label="Breakpoint"></div>
+            <p class="fig-hint" id="modeHint"></p>
+          </section>
+
+          <section class="fig-group">
+            <div class="fig-label">Frame</div>
+            <label class="fig-check">
+              <input type="checkbox" id="duplicate" />
+              <span class="fig-check__box" aria-hidden="true">
+                <svg viewBox="0 0 10 10" fill="none">
+                  <path
+                    d="M2 5.5 4 7.5 8 3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="fig-check__text">Work on a copy beside the original</span>
+            </label>
+            <label class="fig-check">
+              <input type="checkbox" id="resizeRoot" />
+              <span class="fig-check__box" aria-hidden="true">
+                <svg viewBox="0 0 10 10" fill="none">
+                  <path
+                    d="M2 5.5 4 7.5 8 3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="fig-check__text" id="resizeRootLabel">Set the width</span>
+            </label>
+            <p class="fig-hint" id="frameHint"></p>
+          </section>
+
+          <section class="fig-group">
+            <div class="fig-label">Variants</div>
+            <label class="fig-check">
+              <input type="checkbox" id="switchVariants" />
+              <span class="fig-check__box" aria-hidden="true">
+                <svg viewBox="0 0 10 10" fill="none">
+                  <path
+                    d="M2 5.5 4 7.5 8 3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="fig-check__text" id="switchVariantsLabel"
+                >Switch Breakpoint on nested instances</span
+              >
+            </label>
+            <select class="fig-select" id="variantValue" aria-label="Variant value"></select>
+            <p class="fig-hint" id="variantHint"></p>
+          </section>
+
+          <section class="fig-group">
+            <div class="fig-label">Modes</div>
+            <label class="fig-check">
+              <input type="checkbox" id="resetNestedModes" />
+              <span class="fig-check__box" aria-hidden="true">
+                <svg viewBox="0 0 10 10" fill="none">
+                  <path
+                    d="M2 5.5 4 7.5 8 3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="fig-check__text">Reset fixed modes on nested layers</span>
+            </label>
+            <label class="fig-check">
+              <input type="checkbox" id="setChildrenModes" />
+              <span class="fig-check__box" aria-hidden="true">
+                <svg viewBox="0 0 10 10" fill="none">
+                  <path
+                    d="M2 5.5 4 7.5 8 3"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span class="fig-check__text">Also set the mode on direct children</span>
+            </label>
+            <p class="fig-hint" id="modesHint"></p>
+          </section>
+        </div>
+
+        <div class="fig-view" id="prepareView" hidden>
+          <section class="fig-group">
+            <div class="fig-label">Values</div>
+            <div class="value-row" id="prepareValues"></div>
+            <p class="fig-hint" id="prepareValuesHint"></p>
+          </section>
+          <section class="fig-group">
+            <div class="fig-label">Selection</div>
+            <p class="fig-hint" id="prepareHint"></p>
+          </section>
+        </div>
+
+        <div class="fig-view" id="bindView" hidden>
+          <section class="fig-group">
+            <div class="fig-label">Variable</div>
+            <select class="fig-select" id="variableSelect" aria-label="Variable"></select>
+            <p class="fig-hint" id="variableHint"></p>
+          </section>
+          <section class="fig-group">
+            <div class="fig-label">Instances</div>
+            <p class="fig-hint" id="bindHint"></p>
+          </section>
+        </div>
+      </div>
+
+      <div class="fig-status" id="noticeGroup" hidden>
+        <div class="fig-notice" id="notice"></div>
+      </div>
+
+      <footer class="fig-footer" id="switchFooter">
+        <button type="button" class="fig-btn fig-btn--primary" id="apply" disabled>Apply</button>
+      </footer>
+      <footer class="fig-footer" id="bindFooter" hidden>
+        <button type="button" class="fig-btn" id="unbind" disabled>Unbind</button>
+        <button type="button" class="fig-btn fig-btn--primary" id="bind" disabled>Bind</button>
+      </footer>
+      <footer class="fig-footer" id="prepareFooter" hidden>
+        <button type="button" class="fig-btn fig-btn--primary" id="prepareApply" disabled>
+          Add the property
+        </button>
+      </footer>
+    </div>
+
+    <div class="fig-overlay" id="settingsView" hidden>
+      <header class="fig-header">
+        <button type="button" class="fig-btn fig-btn--icon" id="closeSettings" title="Back">
+          <span class="fig-sr-only">Back</span>
+          <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path
+              d="M9 3L5 7l4 4"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <h1 class="fig-header__title">Settings</h1>
+      </header>
+      <div class="fig-body">
+        <section class="fig-group">
+          <label class="fig-label" for="propertyName">Variant property</label>
+          <div class="fig-row">
+            <div class="fig-field">
+              <input type="text" id="propertyName" placeholder="Breakpoint" spellcheck="false" />
+            </div>
+          </div>
+          <p class="fig-hint">
+            The variant property that every nested instance is switched on. Matched without regard
+            to case.
+          </p>
+        </section>
+        <section class="fig-group">
+          <label class="fig-label" for="collectionSelect">Mode collection</label>
+          <select class="fig-select" id="collectionSelect"></select>
+          <p class="fig-hint" id="libraryHint"></p>
+          <p class="fig-hint">
+            The variable collection whose modes carry the breakpoint. Its string variables are
+            offered for binding.
+          </p>
+          <button type="button" class="fig-link" id="reload">Reload collections</button>
+        </section>
+        <section class="fig-group">
+          <div class="fig-label">Breakpoint widths</div>
+          <div class="fig-stack" id="widthRows"></div>
+          <button type="button" class="fig-link" id="addWidth">Add a breakpoint</button>
+          <p class="fig-hint">
+            The width a frame is set to for each breakpoint, matched to its name without regard to
+            case. A name that this file does not offer is kept for the file that does.
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <!--inject:js-->
+  </body>
+</html>
